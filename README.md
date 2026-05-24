@@ -39,3 +39,16 @@ pip install -e ".[dev]"
 - 🐛 Pitfall & Fix: Selection sort swaps non-adjacent elements → breaks stability. Documented tradeoff: use only when write operations are expensive. Insertion sort's `while j >= 0 and arr[j] > key` must use strict `>` to preserve equal-element order.
 - 🔍 Book Reference: Hetland Ch. 4 (Loop Invariants, Comparison-Based Lower Bounds)
 - 📈 Benchmark: Pending (will run `timeit` on n=10³, 10⁴ vs Python's Timsort)
+
+### Day 5: Advanced Sorting Algorithms
+- 🎯 Goal: Implement Merge, Quick, Heap sorts; analyze divide & conquer & heap properties
+- 📐 Algorithms: `merge_sort` (stable, O(n) space), `quick_sort` (Lomuto, in-place), `heap_sort` (max-heap, in-place)
+- ⏱️ Complexity:
+  | Algorithm      | Best   | Avg    | Worst  | Space | Stable? | Notes                  |
+  |----------------|--------|--------|--------|-------|---------|------------------------|
+  | Merge Sort     | O(n log n) | O(n log n) | O(n log n) | O(n)  | ✅      | Predictable, external merge friendly |
+  | Quick Sort     | O(n log n) | O(n log n) | O(n²)  | O(log n)| ❌    | Cache-friendly, worst-case on sorted/pivot |
+  | Heap Sort      | O(n log n) | O(n log n) | O(n log n) | O(1)  | ❌    | Guaranteed O(n log n), poor locality   |
+- 🐛 Pitfall & Fix: QuickSort with Lomuto degrades to O(n²) on already-sorted arrays (pivot = last element). Fix: random pivot or median-of-three (deferred to Week 3). Heap sort's `_heapify` recursion can hit limits on huge arrays; iterative heapify preferred for production. Merge sort's `<=` in merge step preserves stability.
+- 🔍 Book Reference: Hetland Ch. 5 (Divide & Conquer, Partitioning, Heapsort, Comparison Sort Lower Bounds)
+- 📈 Benchmark: Pending (will compare all 6 sorts across 4 input patterns)
