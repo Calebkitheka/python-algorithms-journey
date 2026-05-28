@@ -6,14 +6,14 @@ My Python algorithms learning journey, documented and tested.
 ```bash
 python -m venv .venv
 .venv\Scripts\activate
-pip install -e ".[dev]"
+pip install -e ".[dev]."
 
 # 📘 Algorithm Learning Journey
 
 ## Week 1: Foundations & Core Data Structures
 ### Day 2: Linked Lists Implementation
 - 🎯 Goal: Build Singly & Doubly Linked Lists with O(1)/O(n) guarantees
-- 📐 Algorithms: `insert_head`, `insert_tail`, `delete`, `search`, `__iter__`
+- 📐 Algorithms: `insert_head`, `insert_tail`, `delete`, `search`, `__iter__.`
 - ⏱️ Time/Space Complexity:
   | Operation      | Singly | Doubly |
   |----------------|--------|--------|
@@ -49,6 +49,20 @@ pip install -e ".[dev]"
   | Merge Sort     | O(n log n) | O(n log n) | O(n log n) | O(n)  | ✅      | Predictable, external merge friendly |
   | Quick Sort     | O(n log n) | O(n log n) | O(n²)  | O(log n)| ❌    | Cache-friendly, worst-case on sorted/pivot |
   | Heap Sort      | O(n log n) | O(n log n) | O(n log n) | O(1)  | ❌    | Guaranteed O(n log n), poor locality   |
-- 🐛 Pitfall & Fix: QuickSort with Lomuto degrades to O(n²) on already-sorted arrays (pivot = last element). Fix: random pivot or median-of-three (deferred to Week 3). Heap sort's `_heapify` recursion can hit limits on huge arrays; iterative heapify preferred for production. Merge sort's `<=` in merge step preserves stability.
+- 🐛 Pitfall & Fix: QuickSort with Lomuto degrades to O(n²) on already-sorted arrays (pivot = last element). Fix: random pivot or median-of-three (deferred to Week 3). Heap sort's `_heapify` recursion can hit limits on huge arrays; iterative heapify is preferred for production. Merge sort's `<=` in the merge step preserves stability.
 - 🔍 Book Reference: Hetland Ch. 5 (Divide & Conquer, Partitioning, Heapsort, Comparison Sort Lower Bounds)
 - 📈 Benchmark: Pending (will compare all 6 sorts across 4 input patterns)
+
+### Day 6: Benchmarking & CLI Polish
+- 🎯 Goal: Build an automated benchmark runner, a CLI tool, and a visualization notebook
+- 📐 Algorithms: Empirical runtime analysis across 4 input patterns (random, sorted, reverse, few-unique)
+- ⏱️ Complexity vs Reality:
+  | Observation                          | Theory vs Practice Insight                          |
+  |--------------------------------------|-----------------------------------------------------|
+  | Insertion sort beats Quick on n<100  | Low constant factors & cache locality outweigh O(n²)|
+  | Quick sort degrades on sorted input  | Lomuto pivot = last element → worst-case O(n²)      |
+  | Python's `sorted()` wins overall     | Timsort hybridizes Insertion + Merge + pattern detection|
+  | Heap sort memory-efficient but slow  | Poor cache locality from random pointer jumps       |
+- 🐛 Pitfall & Fix: In-place sorts mutate test data between repetitions. Fixed with `copy.deepcopy()` before each run. Also learned `time.perf_counter()` is more accurate than `time.time()` for microbenchmarks.
+- 🔍 Book Reference: Hetland Ch. 5 (Empirical Analysis, Cache Effects, Python's Sorting Strategy)
+- 📈 Benchmark: `benchmarks/sort_results.csv` generated, visualized in `notebooks/.`
